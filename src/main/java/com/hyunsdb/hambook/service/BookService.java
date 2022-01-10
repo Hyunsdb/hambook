@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -19,6 +21,10 @@ public class BookService {
     public Long saveBook(BookFormDto bookFormDto) {
         Book book = bookRepository.save(modelMapper.map(bookFormDto, Book.class));
         return book.getBid();
+    }
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
 
 }
