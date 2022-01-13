@@ -1,19 +1,20 @@
 package com.hyunsdb.hambook.controller;
 
 import com.hyunsdb.hambook.dto.BookFormDto;
+import com.hyunsdb.hambook.dto.BookImgDto;
 import com.hyunsdb.hambook.entity.Book;
 import com.hyunsdb.hambook.service.BookService;
+import com.hyunsdb.hambook.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class BookController {
 
     private final BookService bookService;
+    private final S3Service s3Service;
 
     @GetMapping("/add")
     public String addBookForm(Model model) {
@@ -30,9 +32,10 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String addBook(@ModelAttribute BookFormDto bookFormDto) {
-
-        bookService.saveBook(bookFormDto);
+    public String addBook(@ModelAttribute BookFormDto bookFormDto, BookImgDto bookImgDto, MultipartFile file) throws IOException {
+        bookImgDto.setImgName(bookFormDto.getName());
+        bookImgDto.setFilePath(s3Service.upload(file));
+        bookService.saveBook(bookFormDto,bookImgDto);
 
         return "redirect:/";
     }

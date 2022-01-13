@@ -1,6 +1,7 @@
 package com.hyunsdb.hambook.service;
 
 import com.hyunsdb.hambook.dto.BookFormDto;
+import com.hyunsdb.hambook.dto.BookImgDto;
 import com.hyunsdb.hambook.entity.Book;
 import com.hyunsdb.hambook.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,12 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookImgService bookImgService;
     private final ModelMapper modelMapper;
 
-    public Long saveBook(BookFormDto bookFormDto) {
+    public Long saveBook(BookFormDto bookFormDto, BookImgDto bookImgDto) {
         Book book = bookRepository.save(modelMapper.map(bookFormDto, Book.class));
+        bookImgService.saveBookImg(book,bookImgDto);
         return book.getBid();
     }
 

@@ -53,6 +53,12 @@
             <input type="text" th:field="*{publisher}" class="form-control" placeholder="출판사를 입력해주세요">
         </div>
 
+
+        <div class="input-group">
+            <input type="file" class="custom-file-input" name="file">
+        </div>
+
+
         <hr class="my-4">
 
         <div th:if="${#strings.isEmpty(bookFormDto.bid)}" style="text-align: center">
