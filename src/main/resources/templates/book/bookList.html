@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>책 목록</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='bookForm.html'"
+                    th:onclick="|location.href='@{/book/add}'|"
+                    type="button">책 등록</button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>책 제목</th>
+                <th>글쓴이</th>
+                <th>출판사</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td><a th:href="@{/book/{bookId}(bookId=${book.bid})}" th:text="${book.bid}">책 id</a></td>
+                <td><a th:href="@{|/book/${book.bid}|}" th:text="${book.name}">책 이름</a></td>
+                <td th:text="${book.writer}">글쓴이</td>
+                <td th:text="${book.publisher}">출판사</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div th:with="start=${(books.number/maxPage)*maxPage + 1}, end=(${(books.totalPages == 0) ? 1 : (start + (maxPage - 1) < books.totalPages ? start + (maxPage - 1) : books.totalPages)})" >
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item" th:classappend="${books.number eq 0}?'disabled':''">
+                <a th:href="@{'/book/list/?' + 'page=' + ${books.number-1}}" aria-label='Previous' class="page-link">
+                    <span aria-hidden='true'>&lt</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${books.number eq page-1}?'active':''">
+                <a th:href="@{'/book/list/?' + 'page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+            </li>
+
+            <li class="page-item" th:classappend="${books.number+1 ge books.totalPages}?'disabled':''">
+                <a th:href="@{'/book/list/?' + 'page=' + ${books.number+1}}" aria-label='Next' class="page-link">
+                    <span aria-hidden='true'>&gt</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+
+
+
+
+</div> <!-- /container -->
+
+</body>
+</html>
