@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>책 상세</h2>
+    </div>
+
+    <div>
+        <label for="bookId">BOOK ID</label>
+        <input type="text" id="bookId" class="form-control" value="1" th:value="${book.bid}" readonly>
+    </div>
+    <div>
+        <label for="bookName">책 이름</label>
+        <input type="text" id="bookName" class="form-control" value="상품A" th:value="${book.name}" readonly>
+    </div>
+    <div>
+        <label for="bookWriter">글쓴이</label>
+        <input type="text" id="bookWriter" class="form-control" value="10000" th:value="${book.writer}" readonly>
+    </div>
+    <div>
+        <label for="bookPublisher">출판사</label>
+        <input type="text" id="bookPublisher" class="form-control" value="10" th:value="${book.publisher}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='bookEditForm.html'"
+                    th:onclick="|location.href='@{/validation/v4/items/{bookId}/edit(bookId=${book.bid})}'|"
+                    type="button">수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='bookList.html'"
+                    th:onclick="|location.href='@{/book/list}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

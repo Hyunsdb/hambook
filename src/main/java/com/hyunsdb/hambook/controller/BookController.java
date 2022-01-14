@@ -49,4 +49,10 @@ public class BookController {
         return "book/bookList";
     }
 
+    @GetMapping("/{bookId}")
+    public String detail(@PathVariable("bookId") Long bookId, Model model) {
+        BookFormDto book = bookService.getDetail(bookId);
+        model.addAttribute("book", book);
+        return "/book/bookDetail";
+    }
 }

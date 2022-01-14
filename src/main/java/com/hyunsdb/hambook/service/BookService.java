@@ -32,4 +32,7 @@ public class BookService {
         return bookRepository.getBookListPage(pageable);
     }
 
+    public BookFormDto getDetail(Long id){
+        return modelMapper.map(bookRepository.findById(id).get(), BookFormDto.class);
+    }
 }
