@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <style>
+        .product-img {
+            height:180px;
+        }
+    </style>
 
 </head>
 <body>
@@ -12,6 +17,11 @@
     <div class="py-5 text-center">
         <h2>책 상세</h2>
     </div>
+
+    <div>
+        <img class="product-img" th:src="${bookImg.getFileFullPath()}">
+    </div>
+
 
     <div>
         <label for="bookId">BOOK ID</label>

@@ -3,6 +3,7 @@ package com.hyunsdb.hambook.service;
 import com.hyunsdb.hambook.dto.BookFormDto;
 import com.hyunsdb.hambook.dto.BookImgDto;
 import com.hyunsdb.hambook.entity.Book;
+import com.hyunsdb.hambook.entity.BookImg;
 import com.hyunsdb.hambook.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -23,9 +22,11 @@ public class BookService {
     private final ModelMapper modelMapper;
 
     public Long saveBook(BookFormDto bookFormDto, BookImgDto bookImgDto) {
-        Book book = bookRepository.save(modelMapper.map(bookFormDto, Book.class));
-        bookImgService.saveBookImg(book,bookImgDto);
-        return book.getBid();
+
+        bookFormDto.setBookImg(modelMapper.map(bookImgDto,BookImg.class));
+        bookImgService.saveBookImg(bookImgDto);
+
+        return bookRepository.save(modelMapper.map(bookFormDto, Book.class)).getBid();
     }
 
     public Page<Book> listPage(Pageable pageable) {

@@ -1,12 +1,13 @@
 package com.hyunsdb.hambook.entity;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class BookImg {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +19,6 @@ public class BookImg {
     @Column(columnDefinition = "TEXT")
     private String filePath;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "bid")
-    private Book book;
+    private String fileFullPath;
+
 }

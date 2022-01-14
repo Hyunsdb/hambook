@@ -3,6 +3,7 @@ package com.hyunsdb.hambook.controller;
 import com.hyunsdb.hambook.dto.BookFormDto;
 import com.hyunsdb.hambook.dto.BookImgDto;
 import com.hyunsdb.hambook.entity.Book;
+import com.hyunsdb.hambook.service.BookImgService;
 import com.hyunsdb.hambook.service.BookService;
 import com.hyunsdb.hambook.service.S3Service;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class BookController {
 
     private final BookService bookService;
+    private final BookImgService bookImgService;
     private final S3Service s3Service;
 
     @GetMapping("/add")
@@ -52,7 +54,9 @@ public class BookController {
     @GetMapping("/{bookId}")
     public String detail(@PathVariable("bookId") Long bookId, Model model) {
         BookFormDto book = bookService.getDetail(bookId);
+        BookImgDto bookImg = bookImgService.getBookImg(bookId);
         model.addAttribute("book", book);
+        model.addAttribute("bookImg", bookImg);
         return "/book/bookDetail";
     }
 }

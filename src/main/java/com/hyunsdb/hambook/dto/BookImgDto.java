@@ -1,6 +1,5 @@
 package com.hyunsdb.hambook.dto;
 
-import com.hyunsdb.hambook.entity.Book;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +12,13 @@ public class BookImgDto {
     private Long id;
     private String imgName;
     private String filePath;
-    private Book book;
+    private String fileFullPath;
 
     @Builder
-    public BookImgDto(Long id, String imgName, String filePath, Book book) {
+    public BookImgDto(Long id, String imgName, String filePath, String fileFullPath) {
         this.id = id;
         this.imgName = imgName;
         this.filePath = filePath;
-        this.book = book;
+        this.fileFullPath = fileFullPath;
     }
 }

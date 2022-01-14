@@ -1,5 +1,6 @@
 package com.hyunsdb.hambook.dto;
 
+import com.hyunsdb.hambook.entity.BookImg;
 import lombok.*;
 
 @Getter
@@ -14,4 +15,6 @@ public class BookFormDto {
     private String writer;
 
     private String publisher;
+
+    private BookImg bookImg;
 }
