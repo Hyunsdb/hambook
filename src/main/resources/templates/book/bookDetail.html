@@ -2,12 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <style>
         .product-img {
             height:180px;
         }
     </style>
+
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/starrr.css}" rel="stylesheet"/>
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <script th:src="@{/js/starrr.js}"></script>
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -42,11 +53,70 @@
 
     <hr class="my-4">
 
+
+    <!--리뷰 등록-->
+    <button type="button" class="btn btn-dark addReviewBtn"> 리뷰 등록 </button>
+
+    <div class="reviewModal modal" id="reviewModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>사용자 ID</label>
+                        <input type="text" class="form-control" name="mid">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Grade <span class="grade"></span></label>
+                        <div class="starrr"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>리뷰 내용</label>
+                        <input type="text" class="form-control" name="text" placeholder="리뷰 내용을 작성해주세요">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+                    <button type="button" class="btn btn-warning btn-sm">수정</button>
+                    <button type="button" class="btn btn-danger btn-sm">삭제</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="imageModal modal" tabindex="-2" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='bookEditForm.html'"
-                    th:onclick="|location.href='@{/validation/v4/items/{bookId}/edit(bookId=${book.bid})}'|"
+                    th:onclick="|location.href='@{}'|"
                     type="button">수정</button>
         </div>
         <div class="col">
@@ -58,5 +128,44 @@
     </div>
 
 </div> <!-- /container -->
+
+
+
+<script>
+    $(document).ready(function (e){
+        var grade = 0;
+        var bid = [[${book.bid}]];
+
+        $('.starrr').starrr({
+            rating: grade,
+            change: function(e, value){
+                if (value){
+                    console.log(value);
+                    grade = value;
+                }
+            }
+        });
+
+        var reviewModal = $(".reviewModal");
+        var inputMid = $('input[name="mid"]');
+        var inputText = $('input[name="text"]');
+
+        $(".addReviewBtn").click(function () {
+            inputMid.val("");
+            inputText.val("");
+
+            $(".removeBtn ,  .modifyBtn").hide();
+            $(".reviewSaveBtn").show();
+
+            reviewModal.modal('show');
+        });
+
+    });
+</script>
+
+
+
 </body>
+
+
 </html>
