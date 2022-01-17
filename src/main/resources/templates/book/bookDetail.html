@@ -69,7 +69,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>사용자 ID</label>
-                        <input type="text" class="form-control" name="mid">
+                        <input type="text" class="form-control" name="uid">
                     </div>
 
                     <div class="form-group">
@@ -79,14 +79,14 @@
 
                     <div class="form-group">
                         <label>리뷰 내용</label>
-                        <input type="text" class="form-control" name="text" placeholder="리뷰 내용을 작성해주세요">
+                        <input type="text" class="form-control" name="content" placeholder="리뷰 내용을 작성해주세요">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-                    <button type="button" class="btn btn-warning btn-sm">수정</button>
-                    <button type="button" class="btn btn-danger btn-sm">삭제</button>
+<!--                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>-->
+                    <button type="button" class="btn btn-primary btn-sm reviewSaveBtn">저장</button>
+                    <button type="button" class="btn btn-warning btn-sm reviewModifyBtn">수정</button>
+                    <button type="button" class="btn btn-danger btn-sm reviewDeleteBtn">삭제</button>
                 </div>
             </div>
         </div>
@@ -147,11 +147,11 @@
         });
 
         var reviewModal = $(".reviewModal");
-        var inputMid = $('input[name="mid"]');
-        var inputText = $('input[name="text"]');
+        var inputUid = $('input[name="uid"]');
+        var inputText = $('input[name="content"]');
 
         $(".addReviewBtn").click(function () {
-            inputMid.val("");
+            inputUid.val("");
             inputText.val("");
 
             $(".removeBtn ,  .modifyBtn").hide();
@@ -160,6 +160,25 @@
             reviewModal.modal('show');
         });
 
+        $('.reviewSaveBtn').click(function(){
+            var data = {bid:bid, grade:grade, content:inputText.val(), uid: inputUid.val()}
+
+            console.log(data);
+
+            $.ajax({
+                url: '/book/review/' + bid,
+                method:'POST',
+                contentType: 'application/json; charset=utf-8',
+                data:JSON.stringify(data),
+                dataType:"text",
+                success: function(result){
+                    alert("리뷰가 등록되었습니다.");
+                    console.log("result : " + result);
+                    self.location.reload();
+                }
+            })
+            reviewModal.hide();
+        })
     });
 </script>
 

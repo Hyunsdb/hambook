@@ -1,0 +1,7 @@
+package com.hyunsdb.hambook.repository;
+
+import com.hyunsdb.hambook.entity.Review;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReviewRepository extends JpaRepository<Review,Long> {
+}
