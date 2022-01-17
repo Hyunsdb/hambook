@@ -17,4 +17,8 @@ public class ReviewService {
         return reviewRepository.save(modelMapper.map(bookReviewDto, Review.class)).getRid();
     }
 
+    public void deleteReview(Long id){
+        reviewRepository.deleteById(id);
+    }
+
 }

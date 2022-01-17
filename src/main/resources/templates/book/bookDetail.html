@@ -179,6 +179,23 @@
             })
             reviewModal.hide();
         })
+
+        var rid;
+
+        $('.reviewDeleteBtn').on("click", function () {
+
+            $.ajax({
+                url: '/book/review/' + bid + "/" + rid,
+                method: "DELETE",
+                contentType: 'application/json; charset=utf-8',
+                dataType: "text",
+                success: function (result) {
+                    alert("리뷰가 삭제되었습니다.");
+                    self.location.reload();
+                }
+            })
+            reviewModal.hide();
+        });
     });
 </script>
 
