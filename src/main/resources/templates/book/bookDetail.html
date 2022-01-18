@@ -196,6 +196,22 @@
             })
             reviewModal.hide();
         });
+
+        $('.reviewModifyBtn').on("click",function(){
+            var data = {rid:rid, bid:bid, grade:grade, content:inputText.val()}
+            $.ajax({
+                url: '/book/review/' + bid + "/" + rid,
+                method: "PUT",
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                dataType:"text",
+                success: function(result){
+                    alert("리뷰가 수정되었습니다.");
+                    self.location.reload();
+                }
+            })
+            reviewModal.hide();
+        })
     });
 </script>
 

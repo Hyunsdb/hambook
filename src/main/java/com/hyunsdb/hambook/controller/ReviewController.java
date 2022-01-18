@@ -7,11 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book/review")
 @RequiredArgsConstructor
 public class ReviewController {
     public final ReviewService reviewService;
+
 
     @PostMapping("{bid}")
     public ResponseEntity addReview(@RequestBody BookReviewDto bookReviewDto) {
@@ -22,6 +25,13 @@ public class ReviewController {
     @DeleteMapping("/{bid}/{rid}")
     public ResponseEntity removeReview(@PathVariable Long rid) {
         reviewService.deleteReview(rid);
+        return new ResponseEntity(rid, HttpStatus.OK);
+    }
+
+    @PutMapping("/{bid}/{rid}")
+    public ResponseEntity modifyReview(@PathVariable Long rid, @RequestBody BookReviewDto bookReviewDto) {
+        reviewService.modifyReview(bookReviewDto);
+
         return new ResponseEntity(rid, HttpStatus.OK);
     }
 }

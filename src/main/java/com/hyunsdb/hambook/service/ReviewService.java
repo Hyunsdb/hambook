@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -21,4 +23,16 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
+    public void modifyReview(BookReviewDto bookReviewDto) {
+        Optional<Review> review = reviewRepository.findById(bookReviewDto.getRid());
+
+        if (review.isPresent()) {
+            Review findReview = review.get();
+            findReview.changeGrade(bookReviewDto.getGrade());
+            findReview.changeContent(bookReviewDto.getContent());
+
+            reviewRepository.save(findReview);
+        }
+
+    }
 }
