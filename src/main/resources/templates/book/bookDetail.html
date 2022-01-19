@@ -54,6 +54,10 @@
     <hr class="my-4">
 
 
+    <div class="list-group getBookReviewList">
+
+    </div>
+
     <!--리뷰 등록-->
     <button type="button" class="btn btn-dark addReviewBtn"> 리뷰 등록 </button>
 
@@ -212,6 +216,38 @@
             })
             reviewModal.hide();
         })
+
+
+        function getBookReviews() {
+
+            function formatTime(str) {
+                var date = new Date(str);
+
+                return date.getFullYear() + '/' +
+                    (date.getMonth() + 1) + '/' +
+                    date.getDate() + ' ' +
+                    date.getHours() + ':' +
+                    date.getMinutes();
+            }
+
+            $.getJSON("/book/review/" + bid + "/list", function (arr) {
+                var str = "";
+
+                $.each(arr, function (idx, review) {
+
+                    console.log(review);
+
+                    str += '    <div class="card-body" data-rid=' + review.rid + ' data-bid=' + review.bid + '>';
+                    str += '    <h5 class="card-title">' + review.content + '</span></h5>';
+                    str += '    <h6 class="card-subtitle mb-2 text-muted">'+review.grade+'</h6>';
+                    str += '    <p class="card-text">' + formatTime(review.regDate) + '</p>';
+                    str += '    </div>';
+                });
+
+                $(".getBookReviewList").html(str);
+            });
+        }
+        getBookReviews();
     });
 </script>
 

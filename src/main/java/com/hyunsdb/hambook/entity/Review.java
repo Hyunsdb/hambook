@@ -1,5 +1,6 @@
 package com.hyunsdb.hambook.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,15 @@ public class Review extends BaseEntity{
     }
 
     public void changeContent(String content){
+        this.content = content;
+    }
+
+    @Builder
+    public Review(Long rid, Book book, User user, int grade, String content) {
+        this.rid = rid;
+        this.book = book;
+        this.user = user;
+        this.grade = grade;
         this.content = content;
     }
 }

@@ -15,6 +15,11 @@ import java.util.List;
 public class ReviewController {
     public final ReviewService reviewService;
 
+    @GetMapping("/{bid}/list")
+    public ResponseEntity<List<BookReviewDto>> reviewList(@PathVariable Long bid){
+        List<BookReviewDto> reviewList = reviewService.getReviewList(bid);
+        return new ResponseEntity<>(reviewList, HttpStatus.OK);
+    }
 
     @PostMapping("{bid}")
     public ResponseEntity addReview(@RequestBody BookReviewDto bookReviewDto) {
