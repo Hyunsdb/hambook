@@ -36,4 +36,12 @@ public class BookService {
     public BookFormDto getDetail(Long id){
         return modelMapper.map(bookRepository.findById(id).get(), BookFormDto.class);
     }
+
+    public Long editBook(Long bookId,BookFormDto bookFormDto){
+        Book book = bookRepository.findById(bookId).get();
+        book.changeBook(bookFormDto.getName(),
+                bookFormDto.getWriter(),
+                bookFormDto.getPublisher());
+        return bookRepository.save(book).getBid();
+    }
 }

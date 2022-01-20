@@ -27,21 +27,6 @@ public class BookController {
     private final BookImgService bookImgService;
     private final S3Service s3Service;
 
-    @GetMapping("/add")
-    public String addBookForm(Model model) {
-        model.addAttribute("bookFormDto", new BookFormDto());
-        return "/book/bookForm";
-    }
-
-    @PostMapping("/add")
-    public String addBook(@ModelAttribute BookFormDto bookFormDto, BookImgDto bookImgDto, MultipartFile file) throws IOException {
-        bookImgDto.setImgName(bookFormDto.getName());
-        bookImgDto.setFilePath(s3Service.upload(file));
-        bookService.saveBook(bookFormDto,bookImgDto);
-
-        return "redirect:/";
-    }
-
     @GetMapping({"/list"})
     public String list(Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
@@ -58,5 +43,33 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("bookImg", bookImg);
         return "/book/bookDetail";
+    }
+
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        model.addAttribute("bookFormDto", new BookFormDto());
+        return "/book/bookForm";
+    }
+
+    @PostMapping("/add")
+    public String addBookForm(@ModelAttribute BookFormDto bookFormDto, BookImgDto bookImgDto, MultipartFile file) throws IOException {
+        bookImgDto.setImgName(bookFormDto.getName());
+        bookImgDto.setFilePath(s3Service.upload(file));
+        bookService.saveBook(bookFormDto, bookImgDto);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/{bookId}/edit")
+    public String editForm(@PathVariable Long bookId, Model model) {
+        BookFormDto book = bookService.getDetail(bookId);
+        model.addAttribute("book", book);
+        return "book/bookEditForm";
+    }
+
+    @PostMapping("/{bookId}/edit")
+    public String editBook(@PathVariable Long bookId, BookFormDto bookFormDto) {
+        bookService.editBook(bookId, bookFormDto);
+        return "redirect:/book/" + bookId;
     }
 }

@@ -30,4 +30,9 @@ public class Book extends BaseEntity{
         this.publisher = publisher;
     }
 
+    public void changeBook(String name, String writer, String publisher) {
+        this.name=name;
+        this.writer=writer;
+        this.publisher = publisher;
+    }
 }

@@ -120,7 +120,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='bookEditForm.html'"
-                    th:onclick="|location.href='@{}'|"
+                    th:onclick="'location.href='+@{/book/{bookId}/edit(bookId=${book.bid})}"
                     type="button">수정</button>
         </div>
         <div class="col">
