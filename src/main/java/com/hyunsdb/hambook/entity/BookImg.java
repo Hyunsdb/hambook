@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class BookImg {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long iid;
 
     @Column(length = 50, nullable = false)
     private String imgName;
@@ -21,4 +21,10 @@ public class BookImg {
 
     private String fileFullPath;
 
+
+    public void changeBookImg(String imgName, String filePath, String fileFullPath) {
+        this.imgName = imgName;
+        this.filePath = filePath;
+        this.fileFullPath = fileFullPath;
+    }
 }

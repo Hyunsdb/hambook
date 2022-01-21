@@ -18,8 +18,8 @@ public class Book extends BaseEntity{
 
     private String publisher;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "iid")
     private BookImg bookImg;
 
     @Builder

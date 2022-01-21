@@ -54,7 +54,7 @@ public class BookController {
     @PostMapping("/add")
     public String addBookForm(@ModelAttribute BookFormDto bookFormDto, BookImgDto bookImgDto, MultipartFile file) throws IOException {
         bookImgDto.setImgName(bookFormDto.getName());
-        bookImgDto.setFilePath(s3Service.upload(file));
+        bookImgDto.setFilePath(s3Service.upload(bookImgDto.getFilePath(),file));
         bookService.saveBook(bookFormDto, bookImgDto);
 
         return "redirect:/";
@@ -63,13 +63,24 @@ public class BookController {
     @GetMapping("/{bookId}/edit")
     public String editForm(@PathVariable Long bookId, Model model) {
         BookFormDto book = bookService.getDetail(bookId);
+        BookImgDto bookImg = bookImgService.getBookImg(bookId);
         model.addAttribute("book", book);
+        model.addAttribute("bookImg", bookImg);
         return "book/bookEditForm";
     }
 
     @PostMapping("/{bookId}/edit")
-    public String editBook(@PathVariable Long bookId, BookFormDto bookFormDto) {
+    public String editBook(@PathVariable Long bookId, BookFormDto bookFormDto, BookImgDto bookImgDto, MultipartFile file) throws IOException {
         bookService.editBook(bookId, bookFormDto);
+        System.out.println("여기");
+        if(!file.isEmpty()) {
+            System.out.println("여기여기");
+            bookImgDto.setImgName(bookFormDto.getName());
+            System.out.println(file.isEmpty());
+            bookImgDto.setFilePath(s3Service.upload(bookImgDto.getFilePath(), file));
+            bookImgService.editBookImg(bookId,bookImgDto);
+        }
+
         return "redirect:/book/" + bookId;
     }
 }

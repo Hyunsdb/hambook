@@ -30,7 +30,7 @@
     </div>
 
     <div>
-        <img class="product-img" th:src="${bookImg.getFileFullPath()}">
+        <img class="product-img" th:src="${bookImg.fileFullPath}">
     </div>
 
 
@@ -120,7 +120,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='bookEditForm.html'"
-                    th:onclick="'location.href='+@{/book/{bookId}/edit(bookId=${book.bid})}"
+                    th:onclick="'location.href=\''+ @{/book/{bid}/edit(bid=${book.bid})} + '\''"
                     type="button">수정</button>
         </div>
         <div class="col">

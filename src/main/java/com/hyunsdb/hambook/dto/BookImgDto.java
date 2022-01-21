@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BookImgDto {
-    private Long id;
+    private Long iid;
     private String imgName;
     private String filePath;
     private String fileFullPath;
 
     @Builder
-    public BookImgDto(Long id, String imgName, String filePath, String fileFullPath) {
-        this.id = id;
+    public BookImgDto(Long iid, String imgName, String filePath, String fileFullPath) {
+        this.iid = iid;
         this.imgName = imgName;
         this.filePath = filePath;
         this.fileFullPath = fileFullPath;

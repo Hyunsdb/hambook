@@ -24,7 +24,7 @@ public class BookService {
     public Long saveBook(BookFormDto bookFormDto, BookImgDto bookImgDto) {
 
         bookFormDto.setBookImg(modelMapper.map(bookImgDto,BookImg.class));
-        bookImgService.saveBookImg(bookImgDto);
+        //bookImgService.saveBookImg(bookImgDto);
 
         return bookRepository.save(modelMapper.map(bookFormDto, Book.class)).getBid();
     }

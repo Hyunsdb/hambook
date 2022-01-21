@@ -24,10 +24,19 @@ public class BookImgService {
         BookImg bookImg = bookRepository.findById(id).get().getBookImg();
 
         return BookImgDto.builder()
-                .id(bookImg.getId())
+                .iid(bookImg.getIid())
                 .imgName(bookImg.getImgName())
                 .filePath(bookImg.getFilePath())
                 .fileFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + bookImg.getFilePath())
                 .build();
+    }
+
+    public void editBookImg(Long bookId, BookImgDto bookImgDto) {
+        Long bookImgId = bookRepository.findById(bookId).get().getBookImg().getIid();
+        BookImg bookImg = bookImgRepository.findById(bookImgId).get();
+        bookImg.changeBookImg(bookImgDto.getImgName(),
+                bookImgDto.getFilePath(),
+                bookImgDto.getFileFullPath());
+        bookImgRepository.save(bookImg);
     }
 }
