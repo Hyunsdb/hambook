@@ -2,6 +2,7 @@ package com.hyunsdb.hambook.controller;
 
 import com.hyunsdb.hambook.dto.BookFormDto;
 import com.hyunsdb.hambook.dto.BookImgDto;
+import com.hyunsdb.hambook.dto.BookSearchDto;
 import com.hyunsdb.hambook.entity.Book;
 import com.hyunsdb.hambook.service.BookImgService;
 import com.hyunsdb.hambook.service.BookService;
@@ -27,12 +28,14 @@ public class BookController {
     private final BookImgService bookImgService;
     private final S3Service s3Service;
 
-    @GetMapping({"/list"})
-    public String list(Optional<Integer> page, Model model) {
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
-        Page<Book> books = bookService.listPage(pageable);
+    @GetMapping({"/list","/list/{page}"})
+    public String list(@PathVariable Optional<Integer> page, Model model, BookSearchDto bookSearchDto) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Page<Book> books = bookService.listPage(bookSearchDto, pageable);
         model.addAttribute("books", books);
         model.addAttribute("maxPage", 5);
+        model.addAttribute("bookSearchDto", bookSearchDto);
+
         return "book/bookList";
     }
 
