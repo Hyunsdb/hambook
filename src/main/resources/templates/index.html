@@ -20,7 +20,15 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <a class="navbar-brand" href="#!">HAMBOOK</a>
-                <a class="btn btn-primary" href="#signup">Sign Up</a>
+<!--                <a class="btn btn-primary" href="#signup">Sign Up</a>-->
+                <div th:if="${#strings.isEmpty(userName)}">
+                    <!-- 스프링 시큐리티에서 기본 제공하는 URL - 별도 컨트롤러 작성 필요 없음 -->
+                    <a href="/oauth2/authorization/google" class="btn btn-sm btn-success active" role="button">Google
+                        Login</a>
+                </div>
+                <div th:unless="${#strings.isEmpty(userName)}">
+                    <label th:text="${userName}"></label>, 안녕하세요
+                </div>
             </div>
         </nav>
         <!-- Masthead-->
@@ -81,6 +89,7 @@
                             <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
                             <h3>작가 소식</h3>
                             <p class="lead mb-0">좋아하는 작가님의 신작 소식을 들어볼 수 있어요!</p>
+                            <button type="button" class="btn btn-outline-secondary">Secondary</button>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -88,6 +97,7 @@
                             <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
                             <h3>리뷰 모아보기</h3>
                             <p class="lead mb-0">함책이들이 읽은 책 둘러보기</p>
+                            <button  th:onclick="|location.href='@{/book/list}'|" type="button" class="btn btn-outline-secondary">Secondary</button>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -95,6 +105,7 @@
                             <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
                             <h3>마이페이지</h3>
                             <p class="lead mb-0">오늘은 어떤 책을 읽으셨나요?</p>
+                            <button type="button" class="btn btn-outline-secondary">Secondary</button>
                         </div>
                     </div>
                 </div>
