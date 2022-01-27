@@ -38,4 +38,4 @@ out/
 
 ### my ignore ###
 src/main/resources/application-oauth.yml
-src/main/resources/application-s3.yml
+src/main/resources/application.yml
