@@ -5,10 +5,7 @@ import com.hyunsdb.hambook.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,5 +30,13 @@ public class PostController {
         postService.addPost(postFormDto);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/post/{pid}")
+    public String postDetail(@PathVariable Long pid, Model model){
+        PostFormDto post = postService.getPostDetail(pid);
+
+        model.addAttribute("post", post);
+        return "board/postDetail";
     }
 }

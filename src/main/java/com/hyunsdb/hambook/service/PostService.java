@@ -20,8 +20,14 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public PostFormDto getPostDetail(Long pid) {
+        Post findPost = postRepository.findById(pid).get();
+        return modelMapper.map(findPost, PostFormDto.class);
+    }
+
     public Long addPost(PostFormDto postFormDto) {
         return postRepository.save(modelMapper.map(postFormDto, Post.class)).getPid();
     }
+
 
 }
