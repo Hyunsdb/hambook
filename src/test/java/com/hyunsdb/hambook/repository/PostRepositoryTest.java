@@ -26,7 +26,7 @@ class PostRepositoryTest {
             Post post = Post.builder()
                     .title("글 제목"+i)
                     .content("글 내용"+i)
-                    .author("작가"+i)
+                    .writer("작가"+i)
                     .build();
             postRepository.save(post);
         }

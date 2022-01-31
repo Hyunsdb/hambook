@@ -30,15 +30,15 @@
                 <thead>
                 <tr>
                     <th>no</th>
-                    <th class="text-center"> 제   목 </th>
+                    <th> 제   목 </th>
                     <th>작가</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="post : ${posts}">
-                    <td><a th:href="@{/post/{postId}(postId=${post.pid})}" th:text="${post.pid}">no</a></td>
-                    <td><a th:href="@{|/post/${post.pid}|}" th:text="${post.title}">제목</a></td>
-                    <td th:text="${post.author}">작가</td>
+                    <td><a th:href="@{/board/post/{postId}(postId=${post.pid})}" th:text="${post.pid}">no</a></td>
+                    <td><a th:href="@{|/board/post/${post.pid}|}" th:text="${post.title}">제목</a></td>
+                    <td th:text="${post.writer}">작가</td>
                 </tr>
                 </tbody>
             </table>

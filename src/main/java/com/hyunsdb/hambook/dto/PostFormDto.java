@@ -8,5 +8,5 @@ public class PostFormDto {
     private Long pid;
     private String title;
     private String content;
-    private String author;
+    private String writer;
 }

@@ -20,14 +20,14 @@ public class Post extends BaseEntity{
 
     private String content;
 
-    private String author;
+    private String writer;
 
     @Builder
-    public Post(Long pid, String title, String content, String author) {
+    public Post(Long pid, String title, String content, String writer) {
         this.pid = pid;
         this.title = title;
         this.content = content;
-        this.author = author;
+        this.writer = writer;
     }
 
 }
