@@ -22,7 +22,7 @@ public class PostController {
     @GetMapping("/post/add")
     public String postAddForm(Model model) {
         model.addAttribute("postFormDto", new PostFormDto());
-        return "board/boardForm";
+        return "board/postForm";
     }
 
     @PostMapping("/post/add")
@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{pid}")
-    public String postDetail(@PathVariable Long pid, Model model){
+    public String postDetail(@PathVariable Long pid, Model model) {
         PostFormDto post = postService.getPostDetail(pid);
 
         model.addAttribute("post", post);
