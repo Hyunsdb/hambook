@@ -1,5 +1,6 @@
 package com.hyunsdb.hambook.entity;
 
+import com.hyunsdb.hambook.dto.PostFormDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,11 @@ public class Post extends BaseEntity{
         this.title = title;
         this.content = content;
         this.writer = writer;
+    }
+
+    public void updatePost(PostFormDto postFormDto) {
+        this.title = postFormDto.getTitle();
+        this.content = postFormDto.getContent();
     }
 
 }

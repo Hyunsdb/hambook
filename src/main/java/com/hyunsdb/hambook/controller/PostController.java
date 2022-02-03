@@ -39,4 +39,18 @@ public class PostController {
         model.addAttribute("post", post);
         return "board/postDetail";
     }
+
+    @GetMapping("/post/{pid}/edit")
+    public String postEditForm(@PathVariable Long pid, Model model) {
+        PostFormDto post = postService.getPostDetail(pid);
+        model.addAttribute("post", post);
+        return "board/postEditForm";
+    }
+
+    @PutMapping("/post/{pid}/edit")
+    public String postEdit(@ModelAttribute PostFormDto postFormDto) {
+        postService.editPost(postFormDto);
+
+        return "redirect:/";
+    }
 }

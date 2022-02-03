@@ -29,5 +29,9 @@ public class PostService {
         return postRepository.save(modelMapper.map(postFormDto, Post.class)).getPid();
     }
 
+    public void editPost(PostFormDto postFormDto) {
+        Post post = postRepository.findById(postFormDto.getPid()).get();
+        post.updatePost(postFormDto);
+    }
 
 }
