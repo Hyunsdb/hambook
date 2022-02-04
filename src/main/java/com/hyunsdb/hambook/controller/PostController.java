@@ -1,11 +1,19 @@
 package com.hyunsdb.hambook.controller;
 
 import com.hyunsdb.hambook.dto.PostFormDto;
+import com.hyunsdb.hambook.dto.PostSearchDto;
+import com.hyunsdb.hambook.entity.Post;
 import com.hyunsdb.hambook.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -13,9 +21,17 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("/list")
-    public String boardList(Model model) {
-        model.addAttribute("posts", postService.getPostList());
+    @GetMapping({"/list", "/list/{page}"})
+    public String boardList(@PageableDefault Pageable pageable, PostSearchDto postSearchDto, Model model) {
+        //Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Page<Post> posts = postService.getPostList(postSearchDto, pageable);
+        int totalPages = posts.getTotalPages();
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("maxPage", 5);
+        model.addAttribute("postSearchDto", postSearchDto);
+
+
         return "board/boardList";
     }
 

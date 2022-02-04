@@ -1,13 +1,15 @@
 package com.hyunsdb.hambook.service;
 
 import com.hyunsdb.hambook.dto.PostFormDto;
+import com.hyunsdb.hambook.dto.PostSearchDto;
 import com.hyunsdb.hambook.entity.Post;
 import com.hyunsdb.hambook.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -16,8 +18,9 @@ public class PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
 
-    public List<Post> getPostList(){
-        return postRepository.findAll();
+    @Transactional(readOnly = true)
+    public Page<Post> getPostList(PostSearchDto postSearchDto, Pageable pageable){
+        return postRepository.postSearchPage(postSearchDto, pageable);
     }
 
     public PostFormDto getPostDetail(Long pid) {
