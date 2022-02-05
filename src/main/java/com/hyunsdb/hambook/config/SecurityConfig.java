@@ -1,5 +1,6 @@
 package com.hyunsdb.hambook.config;
 
+import com.hyunsdb.hambook.constant.Role;
 import com.hyunsdb.hambook.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +18,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .headers().frameOptions().disable()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/","/board/**","/css/**","/assets/**","/js/**","/vendor/**","/h2-console/**","/profile").permitAll()
+                .antMatchers("/board/**").hasRole(Role.USER.name())
+                .anyRequest().authenticated()
                 .and()
                 .logout().logoutSuccessUrl("/")
                 .and()
