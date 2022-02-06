@@ -54,7 +54,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.GUEST) //가입할 때 기본 권한을 게스트로 주기 위해
+                .role(Role.USER) //가입할 때 기본 권한 USER
                 .build();
     }
 
