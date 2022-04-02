@@ -3,6 +3,17 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/starrr.css}" rel="stylesheet"/>
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
 </head>
 <body>
 
@@ -27,7 +38,8 @@
     </div>
 
 
-    <hr class="my-4">
+
+
 
 
     <div class="row">
@@ -45,6 +57,135 @@
         </div>
     </div>
 
+
+    <hr class="my-4">
+
+    <!--댓글-->
+    <div class="container">
+        <label for="content">comment</label>
+        <form name="commentInsertForm">
+            <div class="input-group">
+                <input type="hidden" name="pid" th:value="${post.pid}"/>
+                <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+               </span>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="commentList"></div>
+    </div>
+
 </div>
+
+<script>
+    var pid = [[${post.pid}]];
+    var inputText = $('input[name="content"]');
+    var inputUid = $('input[name="uid"]');
+
+
+    $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
+        var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴
+        commentInsert(insertData); //Insert 함수호출(아래)
+    });
+
+
+    function commentInsert(insertData){
+        var data = {pid:pid, content:inputText.val(), uid: inputUid.val()}
+
+        $.ajax({
+            url: '/board/post/' + pid + '/comment',
+            method: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            success: function (result) {
+                alert("댓글이 등록되었습니다.");
+                if (result == 1) {
+                    getCommentList(); //reload
+                    $('[name=content]').val('');
+                }
+            }
+        });
+    }
+
+
+
+    $('.commentSaveBtn').click(function(){
+
+        var data = {pid:pid, uid:inputUid.val(),content:inputText.val()}
+
+        $.ajax({
+            url: '/board/post/' + pid + '/comment',
+            method: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            success: function (result) {
+                alert("댓글이 등록되었습니다.");
+                getCommentList();
+            }
+        });
+
+
+    })
+
+
+    function getCommentList(){
+        $.ajax({
+            url : '/comment/list',
+            type : 'get',
+            data : {'bno':bno},
+            success : function(data){
+                var a ='';
+                $.each(data, function(key, value){
+                    a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+                    a += '<div class="commentInfo'+value.cid+'">'+'댓글번호 : '+value.cid+' / 작성자 : '+value.uid;
+                    a += '<a onclick="commentUpdate('+value.cid+',\''+value.content+'\');"> 수정 </a>';
+                    a += '<a onclick="commentDelete('+value.cid+');"> 삭제 </a> </div>';
+                    a += '<div class="commentContent'+value.cid+'"> <p> 내용 : '+value.content +'</p>';
+                    a += '</div></div>';
+                });
+
+                $(".commentList").html(a);
+            }
+        });
+    }
+
+
+    // function getCommentList() {
+    //
+    //     function formatTime(str) {
+    //         var date = new Date(str);
+    //
+    //         return date.getFullYear() + '/' +
+    //             (date.getMonth() + 1) + '/' +
+    //             date.getDate() + ' ' +
+    //             date.getHours() + ':' +
+    //             date.getMinutes();
+    //     }
+    //
+    //     $.getJSON("/board/post/comment" + pid + "/list", function (arr) {
+    //         var str = "";
+    //
+    //         $.each(arr, function (idx, comment) {
+    //
+    //             console.log(comment);
+    //
+    //             str += '    <div class="card-body" data-rid=' + comment.cid + ' data-bid=' + comment.pid + '>';
+    //             str += '    <h5 class="card-title">' + comment.content + '</span></h5>';
+    //             str += '    <p class="card-text">' + formatTime(comment.regDate) + '</p>';
+    //             str += '    </div>';
+    //         });
+    //
+    //         $(".getPostCommentList").html(str);
+    //     });
+    // }
+
+    $(document).ready(function(){
+        getCommentList();//페이지 로딩시 댓글 목록 출력
+    })
+</script>
+
 </body>
 </html>
