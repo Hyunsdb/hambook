@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>글 목록</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='postForm.html'"
+                    th:onclick="|location.href='@{/board/post/add}'|"
+                    type="button">글쓰기
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <form th:action="@{'/board/list/?page='+${posts.number}}" method="get" th:object="${posts}">
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>no</th>
+                    <th> 제   목 </th>
+                    <th>작가</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${posts}">
+                    <td><a th:href="@{/board/post/{postId}(postId=${post.pid})}" th:text="${post.pid}">no</a></td>
+                    <td><a th:href="@{|/board/post/${post.pid}|}" th:text="${post.title}">제목</a></td>
+                    <td th:text="${post.writer}">작가</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div th:with="start=${(posts.number/maxPage)*maxPage + 1}, end=(${(posts.totalPages == 0) ? 1 : (start + (maxPage - 1) < posts.totalPages ? start + (maxPage - 1) : posts.totalPages)})">
+            <ul class="pagination pagination-sm justify-content-center">
+                <!--이전 페이지-->
+                <li class="page-item" th:classappend="${posts.number eq 0}?'disabled'">
+                    <a th:href="@{/board/list(page=${posts.number-1},searchBy=${postSearchDto.searchBy},searchQuery=${postSearchDto.searchQuery})}"
+                       aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>&lt;</span>
+                    </a>
+                </li>
+                <!--현재 페이지 그룹-->
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+                    th:classappend="${posts.number eq page-1}?'active'">
+                    <a th:href="@{/board/list(page=${page-1},searchBy=${postSearchDto.searchBy},searchQuery=${postSearchDto.searchQuery})}"
+                       th:text="${page}" class="page-link"></a>
+                </li>
+                <!--다음 페이지-->
+                <li class="page-item" th:classappend="${posts.number+1 ge posts.totalPages}?'disabled'">
+                    <a th:href="@{/board/list(page=${posts.number+1},searchBy=${postSearchDto.searchBy},searchQuery=${postSearchDto.searchQuery})}"
+                       aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>&gt;</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <div class="form-inline justify-content-center" th:object="${postSearchDto}">
+            <select th:field="*{searchBy}" class="form-control" style="width:auto; display: inline-block;">
+                <option value="">=========</option>
+                <option value="title" selected>글 제목</option>
+                <option value="writer">작가</option>
+            </select>
+            <input style="width: 50%;display: inline-block;" th:field="*{searchQuery}" type="text" class="form-control"
+                   placeholder="Search ... ">
+            <button style="display: inline-block;" id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+        </div>
+        
+    </form>
+
+</div> <!-- /container -->
+
+</body>
+</html>
